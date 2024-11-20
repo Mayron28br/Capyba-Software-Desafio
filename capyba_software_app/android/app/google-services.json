@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "841867238413",
+    "project_id": "capyba-software",
+    "storage_bucket": "capyba-software.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841867238413:android:1e31ebc59463c108724944",
+        "android_client_info": {
+          "package_name": "android.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841867238413-tk1mmr2bk0l71ue4c5vfqj6l8u5oe9rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5YkDBR4Ao9fv4ewHxbE1ofRR6adhp86s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841867238413-tk1mmr2bk0l71ue4c5vfqj6l8u5oe9rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

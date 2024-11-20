@@ -1,3 +1,4 @@
+import 'package:capyba_software_app/main.dart';
 import 'package:flutter/material.dart';
 
 class InputLoginRegister extends StatefulWidget {
@@ -5,17 +6,12 @@ class InputLoginRegister extends StatefulWidget {
     super.key,
     required this.labelText,
     required this.hintText,
+    required this.controller,
     });
 
   final String labelText;
   final String hintText;
-
-  static const Color red = Color(0xFFFC3C44);
-  static const Color hotPink = Color(0xFFF94C57);
-  static const Color lightGray = Color(0xFFC2CAD7);
-  static const Color whiteSmoke = Color(0xFFF5F5F5);
-  static const Color black = Color(0xFF000000);
-  static const Color white = Color(0xFFFFFFFF);
+  final TextEditingController controller;
 
   @override
   State<InputLoginRegister> createState() => _InpurLoginRegisterState();
@@ -24,23 +20,38 @@ class InputLoginRegister extends StatefulWidget {
 class _InpurLoginRegisterState extends State<InputLoginRegister> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        labelStyle: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-        hintText: widget.hintText,
-        filled: true,
-        fillColor: Colors.white,
-        border: InputBorder.none,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Colors.transparent),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Colors.transparent),
-        ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Label titulo
+          Padding(padding: const EdgeInsets.only(left: 20, right: 20, top:10, bottom: 0), child: Text(widget.labelText, style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),),
+          //Input
+          TextField(
+            controller: widget.controller,
+            decoration: InputDecoration(
+              labelStyle: const TextStyle(color: AppColors.black, fontSize: 16, fontWeight: FontWeight.bold),
+              hintText: widget.hintText,
+              filled: true,
+              fillColor: Colors.transparent,
+              border: InputBorder.none,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+              contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+            ),
+          ),
+        ],
       ),
     );
   }

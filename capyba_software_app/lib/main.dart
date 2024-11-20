@@ -1,8 +1,14 @@
+import 'package:capyba_software_app/pages/home/home.dart';
+import 'package:capyba_software_app/pages/login_register/firebase_auth/auth_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:capyba_software_app/pages/login_register/login.dart';
 import 'package:capyba_software_app/pages/login_register/register.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -12,7 +18,7 @@ class MyApp extends StatelessWidget {
     @override
       Widget build(BuildContext context) {
       return MaterialApp(
-        home: LoginPage(),
+        home: HomePage(),
         routes: {
           '/login': (context) => LoginPage(),
           '/register': (context) => const RegisterPage(),
