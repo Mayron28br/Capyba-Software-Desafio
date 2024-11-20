@@ -5,9 +5,11 @@ class ButtonEnter extends StatefulWidget {
     ButtonEnter({
     super.key,
     required this.nameButton,
+    required this.signUserIn,
     });
 
   final String nameButton;
+  final void Function() signUserIn;
 
   @override
   State<ButtonEnter> createState() => _ButtonEnterState();
@@ -23,7 +25,7 @@ class _ButtonEnterState extends State<ButtonEnter> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ElevatedButton(
-        onPressed: _handleLogin,
+        onPressed: widget.signUserIn,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.hotPink,
           shape: RoundedRectangleBorder(
@@ -34,8 +36,5 @@ class _ButtonEnterState extends State<ButtonEnter> {
         ),
       ),
     );
-  }
-  void _handleLogin() {
-    print('Login');
   }
 }

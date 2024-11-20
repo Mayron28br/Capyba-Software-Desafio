@@ -6,17 +6,68 @@ import 'package:capyba_software_app/pages/login_register/components/title.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
-  void singUserIn () async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text, 
-      password: passwordController.text,
+  void singUserIn() async {
+
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    );
+
+    try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text, 
+        password: passwordController.text,
       );
+      //cirulo de carregamento
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        wrongEmailMensage();
+      } 
+      else if (e.code == 'wrong-password') {
+        wrongPasswordMensage();
+      }
+    }
+
+  }
+
+  void wrongEmailMensage() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Email não encontrado'),
+        );
+      }
+    );
+  }
+
+  void wrongPasswordMensage() {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Senha incorreta'),
+        );
+      }
+    );
   }
 
   @override
@@ -75,7 +126,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     //Entrar button
-                    ButtonEnter(nameButton: 'Entrar'),
+                    ButtonEnter(nameButton: 'Entrar', signUserIn: singUserIn),
                     
                     const Spacer(),
                     //Cadastre-se button
