@@ -6,12 +6,12 @@ class Linkpages extends StatelessWidget {
   super.key,
   required this.text,
   required this.link,
-  required this.route,
+  required this.onTap,
   });
 
   final String text;
   final String link;
-  final String route;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,11 @@ class Linkpages extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(text, style: const TextStyle(color: AppColors.white, fontSize: 18),),
-          TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.only(left: 5),
-          ),
-          onPressed: () => Navigator.pushNamed(context, route), 
-          child: Text(link, style: const TextStyle(color: AppColors.hotPink, fontSize: 18, fontWeight: FontWeight.bold),),
-          ),
+          const SizedBox(width: 5),
+          GestureDetector(
+            onTap: onTap,
+            child: Text(link, style: const TextStyle(color: AppColors.hotPink, fontSize: 18),),
+          )
         ],
       ),
     );

@@ -7,15 +7,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key, required this.onTap});
+  final Function()? onTap;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
 
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   void singUserIn() async {
@@ -36,37 +37,24 @@ class _LoginPageState extends State<LoginPage> {
       );
       //cirulo de carregamento
       Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       Navigator.pop(context);
-      if (e.code == 'user-not-found') {
-        wrongEmailMensage();
-      } 
-      else if (e.code == 'wrong-password') {
-        wrongPasswordMensage();
-      }
+      
+      showErrorMensage('Email ou senha incorretos');
     }
-
   }
 
-  void wrongEmailMensage() {
+  void showErrorMensage(String message) {
     showDialog(
       context: context, 
       builder: (context) {
-        return const AlertDialog(
-          title: Text('Email não encontrado'),
+        return AlertDialog(
+          backgroundColor: AppColors.whiteSmoke,
+          title: Center(
+            child: Text(message, style: const TextStyle(color: AppColors.white, fontSize: 24,),),
+          ),
         );
-      }
-    );
-  }
-
-  void wrongPasswordMensage() {
-    showDialog(
-      context: context, 
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Senha incorreta'),
-        );
-      }
+      },
     );
   }
 
@@ -126,11 +114,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 40),
                     //Entrar button
-                    ButtonEnter(nameButton: 'Entrar', signUserIn: singUserIn),
+                    ButtonEnter(nameButton: 'Entrar', onpPressed: singUserIn),
                     
                     const Spacer(),
                     //Cadastre-se button
-                    Linkpages(text: 'Não é cadastrado?', link: 'Cadastre-se', route: '/register'),
+                    Linkpages(text: 'Não é cadastrado?', link: 'Cadastre-se', onTap: widget.onTap),
                   ],
                 ),
               ),

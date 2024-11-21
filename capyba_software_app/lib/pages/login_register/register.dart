@@ -1,18 +1,68 @@
 import 'package:capyba_software_app/main.dart';
+import 'package:capyba_software_app/pages/home/home.dart';
 import 'package:capyba_software_app/pages/login_register/components/input.dart';
 import 'package:capyba_software_app/pages/login_register/components/button.dart';
 import 'package:capyba_software_app/pages/login_register/components/linkPages.dart';
 import 'package:capyba_software_app/pages/login_register/components/title.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final void Function() onTap;
+  const RegisterPage({super.key, required this.onTap});
 
   @override
   State<RegisterPage> createState() => _RegisterState();
 }
 
 class _RegisterState extends State<RegisterPage> {
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  void singnUserUp() async {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    );
+
+    //Registo do usuário
+    try {
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text, 
+          password: passwordController.text,
+        );
+      } else {
+        showErrorMensage('As senhas não são iguais');
+      }
+      Navigator.pop(context);
+      
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showErrorMensage(e.code);
+    }
+  }
+
+  void showErrorMensage(String message) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.whiteSmoke,
+          title: Center(
+            child: Text(message, style: const TextStyle(color: AppColors.white, fontSize: 24,),),
+          ),
+        );
+      },
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -51,18 +101,16 @@ class _RegisterState extends State<RegisterPage> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [/*
-                    const InputLoginRegister(labelText: 'Nome', hintText: 'Digite seu nome'),
+                  children: [
+                    InputLoginRegister(labelText: 'Email', hintText: 'Digite seu email', controller: emailController,),
                     const SizedBox(height: 20),
-                    const InputLoginRegister(labelText: 'Sobrenome', hintText: 'Digite seu sobrenome'),
+                    InputLoginRegister(labelText: 'Senha', hintText: 'Digite sua senha', controller: passwordController,),
                     const SizedBox(height: 20),
-                    const InputLoginRegister(labelText: 'Email', hintText: 'Digite seu email'),
+                    InputLoginRegister(labelText: 'Confirme sua senha', hintText: 'Digite sua senha novamente', controller: confirmPasswordController,),
                     const SizedBox(height: 20),
-                    const InputLoginRegister(labelText: 'Senha', hintText: 'Digite sua senha'),
-                    const SizedBox(height: 20),
-                    ButtonEnter(nameButton: 'Registrar',),*/
+                    ButtonEnter(nameButton: 'Registrar', onpPressed: singnUserUp),
                     const Spacer(),
-                    Linkpages(text: 'Já é cadastrado?', link: 'Entre', route: '/login'),
+                    Linkpages(text: 'Já é cadastrado?', link: 'Entre', onTap: widget.onTap),
 
                   ],
                 ),
